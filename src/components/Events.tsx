@@ -1,4 +1,4 @@
-import { Box, Button, ButtonProps, Typography, styled } from "@mui/material";
+import { Box, Button, ButtonProps, Modal, Typography, styled } from "@mui/material";
 import NavigationBar from "./NavigationBar";
 import { red } from "@mui/material/colors";
 import { useState } from "react";
@@ -8,9 +8,21 @@ const CenteredContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    margin: '0 auto', 
-    maxWidth: '200px', 
+    margin: '0 auto',
+    maxWidth: '200px',
 });
+
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 export default function Events() {
 
@@ -22,23 +34,21 @@ export default function Events() {
         },
     }));
 
-    const [modal, setModal] = useState(false);
-
-    const toggleModal = () => {
-        setModal(!modal);
-      };
     const commingEvents = ["Sedinta 1 ", "Sedinta 2", "Sedinta 3", "Sedinta 4"]
-   
+
     const [eventDetails, setEventDetails] = useState(Array(commingEvents.length).fill(false));
 
     //Show detail of selected event
     //On second click on same event hide all details
-    const toggleDetails = (index : number) => {
-      const newEventDetails = [...eventDetails];
-      newEventDetails[index] = !newEventDetails[index];
-      setEventDetails(newEventDetails);
+    const toggleDetails = (index: number) => {
+        const newEventDetails = [...eventDetails];
+        newEventDetails[index] = !newEventDetails[index];
+        setEventDetails(newEventDetails);
     };
-   
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     return (
         <>
             <NavigationBar />
@@ -46,10 +56,19 @@ export default function Events() {
 
             <CenteredContainer>
                 <Typography variant="h5" gutterBottom>Comming up Events </Typography>
-                <ColorButton variant="contained">Creaaza Eveniment</ColorButton>
-                <button onClick={toggleModal} className="btn-modal">
-        Open
-      </button>
+                <ColorButton variant="contained" onClick={handleOpen}>Creaaza Eveniment</ColorButton>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            comming Soon.
+                        </Typography>
+                    </Box>
+                </Modal>
             </CenteredContainer>
 
             <Box display='flex'
@@ -63,7 +82,7 @@ export default function Events() {
                         </Button>
                         {eventDetails[index] && (
                             <Typography>Detalii</Typography>
-                            
+
                         )}
                     </React.Fragment>
                 ))}
