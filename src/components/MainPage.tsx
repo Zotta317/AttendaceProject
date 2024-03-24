@@ -29,6 +29,9 @@ export default function MainPage() {
     const departamente = ["Departamente","HR", "Evenimente", "Relatii externe", "Imagini si Piar"]
     const [selectedDepartament, setSelectedDepartament] = useState("Departamente")
    
+
+    // sorting first collumn (Name) is ascending order without localCompare
+    // on second click the sort will be in descending order
     function sortedByName() {
         if (sortedFirstNamesAsc) {
             const sortedNames = [...employees].sort((a, b) => {
@@ -46,23 +49,9 @@ export default function MainPage() {
         }
     }
 
-    function sortedByLastName() {
-        if (sortedLastNamesAsc) {
-            const sortedNames = [...employees].slice().sort((a, b) => {
-                return a.lastname.localeCompare(b.lastname);
-            })
-            setEmployees(sortedNames);
-            setSortedLastNamesAsc(false);
-        } else {
-            const sortedNames = [...employees].slice().sort((a, b) => {
-                return b.lastname.localeCompare(a.lastname);
-            })
-            setEmployees(sortedNames)
-            setSortedLastNamesAsc(true)
-        }
-    }
-
-    function sortedEventByName() {
+    //sorting second collumn (Deparataments) by name in ascending order using localeCompare
+    // on second click the sort will be in descending order
+    function sortedDepartamentByName() {
         if (sortedLastNamesAsc) {
             const sortedNames = [...employees].slice().sort((a, b) => {
                 return a.department.localeCompare(b.department);
@@ -78,7 +67,8 @@ export default function MainPage() {
         }
     }
 
-
+    // sorting third collumn (number of points) of type real in ascending collumn
+    // on second click the sort will be in descending order
     const sortEmployeesByPoints = () => {
         if (sortedPoints) {
             const sortedEmployees = [...employees].sort((a, b) => a.points - b.points);
@@ -90,6 +80,9 @@ export default function MainPage() {
             setSortedPoints(true);
         }
     };
+
+    //Filter employees based on their departament
+    // If Departamente will be selected show all 
     function selectDepartament(selected : any) {
         const filteredEmployees = selected !== "Departamente" ? [...initialEmployees].filter(d => d.department == selected) : [...initialEmployees]
         setEmployees (filteredEmployees);
@@ -121,7 +114,7 @@ export default function MainPage() {
                                         </MenuItem>
                                     ))}
                                 </Select>
-                                <Button onClick={sortedEventByName}><MdImportExport size={22} /></Button>
+                                <Button onClick={sortedDepartamentByName}><MdImportExport size={22} /></Button>
                             </TableCell>
                             <TableCell>Points <Button onClick={sortEmployeesByPoints}><MdImportExport size={22} /></Button></TableCell>
                         </TableRow>

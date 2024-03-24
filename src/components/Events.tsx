@@ -3,13 +3,15 @@ import NavigationBar from "./NavigationBar";
 import { red } from "@mui/material/colors";
 import { useState } from "react";
 import React from "react";
+
 const CenteredContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    margin: '0 auto', // This centers the container horizontally
-    maxWidth: '200px', // You can adjust the maximum width as needed
+    margin: '0 auto', 
+    maxWidth: '200px', 
 });
+
 export default function Events() {
 
     const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -21,6 +23,7 @@ export default function Events() {
     }));
 
     const [modal, setModal] = useState(false);
+
     const toggleModal = () => {
         setModal(!modal);
       };
@@ -28,6 +31,8 @@ export default function Events() {
    
     const [eventDetails, setEventDetails] = useState(Array(commingEvents.length).fill(false));
 
+    //Show detail of selected event
+    //On second click on same event hide all details
     const toggleDetails = (index : number) => {
       const newEventDetails = [...eventDetails];
       newEventDetails[index] = !newEventDetails[index];
