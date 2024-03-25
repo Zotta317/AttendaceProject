@@ -34,9 +34,10 @@ export default function Events() {
         },
     }));
 
-    const commingEvents = ["Sedinta 1 ", "Sedinta 2", "Sedinta 3", "Sedinta 4"]
+    let EventsList = ["Sedinta 1 ", "Sedinta 2", "Sedinta 3", "Sedinta 4"]
 
-    const [eventDetails, setEventDetails] = useState(Array(commingEvents.length).fill(false));
+    const [comingEvents, setComingEvents] = useState<string[]>([]);
+    const [eventDetails, setEventDetails] = useState(Array(comingEvents.length).fill(false));
 
     //Show detail of selected event
     //On second click on same event hide all details
@@ -48,7 +49,12 @@ export default function Events() {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false);
+        
+        setComingEvents([...comingEvents,"Sedinta noua"]);
+        console.log(EventsList)
+    }
     return (
         <>
             <NavigationBar />
@@ -56,7 +62,7 @@ export default function Events() {
 
             <CenteredContainer>
                 <Typography variant="h5" gutterBottom>Comming up Events </Typography>
-                <ColorButton variant="contained" onClick={handleOpen}>Creaaza Eveniment</ColorButton>
+                <ColorButton variant="contained" onClick={handleOpen}>Creeaza Eveniment</ColorButton>
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -67,6 +73,7 @@ export default function Events() {
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                             comming Soon.
                         </Typography>
+                        <Button variant="contained" onClick={handleClose}>Create</Button>
                     </Box>
                 </Modal>
             </CenteredContainer>
@@ -75,7 +82,7 @@ export default function Events() {
                 marginTop={5}
                 flexDirection='column'
                 justifyContent='center' >
-                {commingEvents.map((event, index) => (
+                {comingEvents.map((event, index) => (
                     <React.Fragment key={index}>
                         <Button onClick={() => toggleDetails(index)}>
                             {event}
